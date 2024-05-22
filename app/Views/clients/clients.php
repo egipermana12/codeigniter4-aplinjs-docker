@@ -11,7 +11,7 @@
                 Let's start and grow your skill from here
             </p>
         </div>
-        <button class="inline-flex gap-x-2 items-center py-2.5 px-6 text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
+        <button class="inline-flex gap-x-2 items-center py-2.5 px-6 text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1" x-on:click="modalOpen"
         >
             <span class="text-sm font-semibold tracking-wide">Create Item</span>
         </button>
@@ -100,10 +100,10 @@
                                 <span class="text-sm leading-5 text-gray-900" x-text="client.email"></span>
                             </td>
                             <td class="px-6 py-3 whitespace-normal overflow-hidden border-b border-gray-200">
-                                <span class="text-sm leading-5 text-gray-900" x-text="client.saldo"></span>
+                                <span class="text-sm leading-5 text-gray-900" x-text="$formatRupiah(client.saldo)"></span>
                             </td>
                             <td class="px-6 py-3 whitespace-normal overflow-hidden border-b border-gray-200">
-                                <span class="text-sm leading-5 text-gray-900" x-text="client.created_at"></span>
+                                <span class="text-sm leading-5 text-gray-900" x-text="$dateFormat(client.created_at)"></span>
                             </td>
                         </tr>
                     </template>
@@ -187,17 +187,92 @@
     <!-- table -->
 
 
+<!-- modal -->
+    <template x-teleport="body">
+        <form x-on:submit.prevent="saveClient">
+        <div id="default-modal" tabindex="-1" aria-hidden="true" x-show="isOpen" :class="isOpen ? '':'hidden' " x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90" class="mx-auto overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full" style="background-color: rgba(0,0,0,0.5)">
+            <div class="relative p-4 w-full max-w-2xl max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                            Terms of Service
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal" x-on:click="modalOpen">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+
+                    <div class="p-4 md:p-5 space-y-4">
+                            <label class="relative block">
+                              <span class="sr-only">Nama</span>
+                              <span class="absolute top-1.5 left-0 flex items-center justify-center pl-2 w-7 h-7 text-slate-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M4 22C4 17.5817 7.58172 14 12 14C16.4183 14 20 17.5817 20 22H18C18 18.6863 15.3137 16 12 16C8.68629 16 6 18.6863 6 22H4ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13ZM12 11C14.21 11 16 9.21 16 7C16 4.79 14.21 3 12 3C9.79 3 8 4.79 8 7C8 9.21 9.79 11 12 11Z"></path></svg>
+                              </span>
+                              <input class="placeholder:italic block w-full border rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:ring-1 sm:text-sm bg-white placeholder:text-slate-400 border-slate-300 focus:border-sky-500 focus:ring-sky-500" placeholder="Masukan Nama Client..." type="text" name="search" x-model="formData.name"  />
+                            </label>
+                            <label class="relative block">
+                              <span class="sr-only">Email</span>
+                              <span class="absolute top-1.5 left-0 flex items-center justify-center pl-2 w-7 h-7 text-slate-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22 14H20V7.23792L12.0718 14.338L4 7.21594V19H14V21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H21C21.5523 3 22 3.44772 22 4V14ZM4.51146 5L12.0619 11.662L19.501 5H4.51146ZM19 22L15.4645 18.4645L16.8787 17.0503L19 19.1716L22.5355 15.636L23.9497 17.0503L19 22Z"></path></svg>
+                              </span>
+                              <input class="placeholder:italic block w-full border rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:ring-1 sm:text-sm bg-white placeholder:text-slate-400 border-slate-300 focus:border-sky-500 focus:ring-sky-500" placeholder="Masukan Email Client..." type="text" name="search" x-model="formData.email" />
+                            </label>
+                            <label class="relative block">
+                              <span class="sr-only">Saldo</span>
+                              <span class="absolute top-1.5 left-0 flex items-center justify-center pl-2 w-7 h-7 text-slate-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0049 22.0027C6.48204 22.0027 2.00488 17.5256 2.00488 12.0027C2.00488 6.4799 6.48204 2.00275 12.0049 2.00275C17.5277 2.00275 22.0049 6.4799 22.0049 12.0027C22.0049 17.5256 17.5277 22.0027 12.0049 22.0027ZM12.0049 20.0027C16.4232 20.0027 20.0049 16.421 20.0049 12.0027C20.0049 7.58447 16.4232 4.00275 12.0049 4.00275C7.5866 4.00275 4.00488 7.58447 4.00488 12.0027C4.00488 16.421 7.5866 20.0027 12.0049 20.0027ZM8.50488 14.0027H14.0049C14.281 14.0027 14.5049 13.7789 14.5049 13.5027C14.5049 13.2266 14.281 13.0027 14.0049 13.0027H10.0049C8.62417 13.0027 7.50488 11.8835 7.50488 10.5027C7.50488 9.12203 8.62417 8.00275 10.0049 8.00275H11.0049V6.00275H13.0049V8.00275H15.5049V10.0027H10.0049C9.72874 10.0027 9.50488 10.2266 9.50488 10.5027C9.50488 10.7789 9.72874 11.0027 10.0049 11.0027H14.0049C15.3856 11.0027 16.5049 12.122 16.5049 13.5027C16.5049 14.8835 15.3856 16.0027 14.0049 16.0027H13.0049V18.0027H11.0049V16.0027H8.50488V14.0027Z"></path></svg>
+                              </span>
+                              <input class="placeholder:italic block w-full border rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:ring-1 sm:text-sm bg-white placeholder:text-slate-400 border-slate-300 focus:border-sky-500 focus:ring-sky-500" placeholder="Masukan Saldo Client..." type="text" name="search" x-model="formData.saldo" />
+                            </label>
+                            <template x-if="errors">
+                                <div class="mt-2 border border-red-400 rounded bg-red-50">
+                                    <template x-for="msg in messages">
+                                        <li class="text-sm text-red-400 px-2 list-none" x-text="msg"></li>
+                                    </template>
+                                </div>
+                            </template>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                        <button data-modal-hide="default-modal" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" x-bind:class="{'cursor-not-allowed' : isLoadingBtn}" x-bind:disabled="isLoadingBtn">Sumbit</button>
+                        <button data-modal-hide="default-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" x-on:click="modalOpen">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </template>
+    <!-- modal -->
+
+<!-- batas -->
 </div>
+
+
 
 <!-- script apline -->
 <script>
     function clientInit(){
         return {
+            formData: {
+                name: '',
+                email: '',
+                saldo: ''
+            },
             name: '',
             email: '',
             id: '',
             params: {},
             isLoading: true,
+            isLoadingBtn: false,
+            errors: false,
+            messages: [],
+            isOpen: false,
             clients: [],
             currentPage: 1,
             firstUrl: 1,
@@ -207,6 +282,7 @@
             totalData: null,
             perPage: 5,
             visiblePages: 3,
+            openModal: true,
             totalPages(){
                 return Math.ceil(this.totalData / this.perPage);
             },
@@ -264,7 +340,36 @@
                     this.params = {};
                 }
 
-                this.init(this.currentPage, this.params);
+                this.init(1, this.params);
+            },
+            modalOpen(){
+                this.isOpen =! this.isOpen;
+            },
+            saveClient(){
+                this.isLoadingBtn = true;
+                fetch('api/ClientsApi', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(this.formData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status == 400){
+                        this.errors = true;
+                        this.messages = data.messages;
+                        this.isLoadingBtn = false;
+                    }else{
+                        alert('Data Berhasil disimpan');
+                        this.isOpen = false;
+                        this.init(1, this.params);
+                        this.isLoadingBtn = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saving post:', error);
+                });
             },
             init(page = this.currentPage, params = this.params){
 
@@ -272,7 +377,7 @@
 
                 this.isLoading = true;
                 this.page = page;
-                fetch(`api/clients?page=${this.page}&${url.toString()}`).then((response) => {
+                fetch(`api/ClientsApi?page=${this.page}&${url.toString()}`).then((response) => {
                     response.json().then((json) => {
                         this.isLoading = false;
                         this.clients = json.data;

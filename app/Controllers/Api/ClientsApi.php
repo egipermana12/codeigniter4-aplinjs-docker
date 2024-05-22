@@ -4,6 +4,7 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
+use CodeIgniter\HTTP\IncomingRequest;
 use App\Models\ClientsModel;
 use App\Traits\HasFilters;
 
@@ -90,7 +91,11 @@ class ClientsApi extends ResourceController
      */
     public function create()
     {
-        //
+        $data = $this->request->getJSON();
+        if(!$this->model->save($data)){
+            return $this->fail($this->model->errors());
+        }
+        return $this->respondCreated($data, 'Data client berhasil ditambahkan');
     }
 
     /**

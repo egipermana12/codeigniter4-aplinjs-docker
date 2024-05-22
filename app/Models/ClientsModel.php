@@ -12,7 +12,9 @@ class ClientsModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'name', 'email', 'saldo'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -28,7 +30,11 @@ class ClientsModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
+    protected $validationRules      = [
+        'name' => 'required|alpha_numeric_space|min_length[3]|max_length[255]',
+        'email' => 'required|min_length[3]|max_length[255]|valid_email|is_unique[clients.email,id,{id}]',
+        'saldo' => 'required'
+    ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
