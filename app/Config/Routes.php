@@ -15,6 +15,10 @@ $routes->get('/layout', 'Home::testLayout');
 $routes->get('posts', 'Clients::index');
 $routes->get('posts/fetch', 'Clients::fetch');
 
+
+$routes->get('movies', 'Movies::index');
+
+
 // api
 $routes->group('api', ['namespace' => 'App\Controllers\Api'], static function ($routes) {
     $routes->resource('ClientsApi');

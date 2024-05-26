@@ -39,16 +39,16 @@
                     </a>
                 </div>
                 <div class="grid place-items-center bg-transparent group perspective w-60 h-52">
-                    <a href="#" target="_blank" class="relative w-full h-full preserve-3d group-hover:my-rotate-y-180 transition-all duration-1000">
-                        <div class="absolute inset-0 bg-amber-400 rounded w-full h-full backface-hidden">
+                    <a href="<?= base_url('movies'); ?>" target="_blank" class="relative w-full h-full preserve-3d group-hover:my-rotate-y-180 transition-all duration-1000">
+                        <div class="absolute inset-0 bg-rose-600 rounded w-full h-full backface-hidden">
                           <div class="w-full h-full grid place-items-center">
                               <img class="object-cover object-center h-24 w-24 drop-shadow-xl"
-                        src="<?= base_url("assets/grocery-store.png") ?>" />
+                        src="<?= base_url("assets/video.png") ?>" />
                           </div>
                         </div>
-                        <div class="absolute inset-0 w-full h-full rounded bg-amber-500 my-rotate-y-180 backface-hidden">
+                        <div class="absolute inset-0 w-full h-full rounded bg-rose-700 my-rotate-y-180 backface-hidden">
                             <div class="w-full h-full grid place-items-center">
-                                <h1 class="text-xl font-semibold text-white">Modul Studio</h1>
+                                <h1 class="text-xl font-semibold text-white">Modul Movies</h1>
                             </div>
                         </div>
                     </a>
